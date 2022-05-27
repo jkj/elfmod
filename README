@@ -1,0 +1,75 @@
+elfmod is a small tool used for manipulating the dynamic section of modern
+ELF binaries. It is primarily intended to post-edit library and executable
+files to adjust the path names of shared libraries and to control the run
+time behaviour of how the system will look for such libraries.
+
+Exactly how to name shared libraries and how to represent their names is the
+subject of much (often heated) debate. Some common tools, such as libtool,
+have come down on one side or another of the debate. elfmod is intended to
+allow people to reliably set things the way they want to for the programs
+they control, rather than having such programs express the design choices of
+a generic tool that makes application development a little bit easier.
+
+elfmod only works on executables and shared libraries. It is not (yet) a
+general purpose ELF file manipulation tool.
+
+elfmod assumes you know what you are doing. It can subtly change how programs
+work and how shared libraries are located. If you make paths absolute you take
+away the option for the user to load alternate versions using environment
+variables.
+
+The program is not limited by "sufficient space" in the dynamic section to
+change library names. It will only ever add strings to the table, it will not
+modify them. This can leave a few unwanted bytes in the string table. Unless
+you have a file with many thousands of libraries (hello GWS!) this is unlikely
+to be a problem, and even in such pathalogical cases, the file is already so
+large that a few kilobytes of wasted space are not a problem. This strategy
+makes the modification of a file much simpler as we do not need to process
+every single section in order to correct offsets.
+
+elfmod may not actually represent current reality, if vendors do not strictly
+obey the gABI. Although such cases are strictly bugs in other places, in order
+for elfmod to be maximally useful it should be able to cope with this. Please
+file a bug report if you find elfmod doing the wrong thing or not working with
+your ELF files correctly.
+
+I hope elfmod is a useful little tool in your development arsenal. Please
+report any bugs on GitHub. If you plan on adding elfmod to a distribution I
+would appreciate it if you'd send me a mail telling me so. No obligation, of
+course, but I'd like to try keep track of it.
+
+To "absolute" or not to "absolute" - that is the question
+---------------------------------------------------------
+
+There are a number of good reasons both for and against using absolute path
+names for shared libbrary names or for dependency names. A lot depends on who
+the target audience of the files is.
+
+In general, the case FOR absolute path names is that things are deterministic.
+You always know exactly what shared libraries will be loaded in, and from
+where. For an application that wants to ensure that no other system activity
+can interfere with any of the bits required for the application, absolute paths
+make sense. However, using absolute path names means that you cannot easily
+subvert any of the shared libraries to new versions using LD_LIBRARY_PATH or
+other trickery with the run-time link editor (RTLD). The other downside is
+that you cannot use any program or shared library until it is installed. Thus
+the most typical thing to do if you want to use absolute path names is to
+run elfmod on the libraries and executables immediately before packaging when
+there is no need to actually execute anything.
+
+The case AGAINST absolute path names is that you lose the flexibility to use
+the facilities of tools like ldconfig and to rely on their caches. You also
+lose the ability to "test out" new versions of a library by ensuring that it
+is loaded from an alternate location specified by LD_LIBRARY_PATH. Of course
+you can always just elfmod the program again if you need to do this.
+
+Personally I like the determinism of absolute paths. I like being able to see
+exactly what gets loaded simply by using `ldd' and knowing that nothing in
+the environment can change library locations and for certain applications,
+being able to copy its dependencies to a known location and using those so
+that if someone else upgrades a package or installs system updates that I do
+not have to worry about the library changing out from under the application.
+
+In summary, I find that using absolute path names is good for a select few
+applications but using simple path names and DT_RUNPATH (not DT_RPATH) is the
+right thing to do for most system applications and packages.
