@@ -26,13 +26,13 @@
 
 #if 0
 #define ELFCS "32"
-#define ELFT(type) Elf ## 32 ## _ ## type
-#define EFC(name) name ## _ ## 32
-#define EFCT(name) name ## 32 ## _t
-#define PRIex "0x%08"PRIx32
-#define PRI8x "0x%08"PRIx32
-#define PRIeu "%"PRIu32
-#define PRIei "%"PRIi32
+#define ELFT(type) Elf##32##_##type
+#define EFC(name) name##_##32
+#define EFCT(name) name##32##_t
+#define PRIex "0x%08" PRIx32
+#define PRI8x "0x%08" PRIx32
+#define PRIeu "%" PRIu32
+#define PRIei "%" PRIi32
 #define EXSPACES ""
 #include "realproc.c"
 
@@ -46,20 +46,22 @@
 #undef EXSPACES
 #endif
 
-#define ELFCS "64"
-#define ELFT(type) Elf ## 64 ## _ ## type
-#define EFC(name) name ## _ ## 64
-#define EFCT(name) name ## 64 ## _t
-#define PRIex "0x%016"PRIx64
-#define PRI8x "0x%08"PRIx64
-#define PRIeu "%"PRIu64
-#define PRIei "%"PRIi64
-#define EXSPACES "        "
+#define ELFCS           "64"
+#define ELFT(type)      Elf##64##_##type
+#define EFC(name)       name##_##64
+#define EFCT(name)      name##64##_t
+#define PRIex           "0x%016" PRIx64
+#define PRI8x           "0x%08" PRIx64
+#define PRIeu           "%" PRIu64
+#define PRIei           "%" PRIi64
+#define EXSPACES        "        "
+
 #include "realproc.c"
 
 #undef process_file
+
 static void
-process_file (unsigned char *data, size_t dlen)
+process_file(unsigned char *data, size_t dlen)
 {
 #if 0
   if (data[EI_CLASS] == ELFCLASS32) {
@@ -68,7 +70,7 @@ process_file (unsigned char *data, size_t dlen)
     process_file_64 (data, dlen);
   }
 #else
-  process_file_64 (data, dlen);
+  process_file_64(data, dlen);
 #endif
 }
 

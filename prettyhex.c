@@ -24,15 +24,15 @@
  * SUCH DAMAGE.
  */
 
-#define HPP_OFFSET_16           (1 << 0)        /* Prefix with 16 bit offset */
-#define HPP_OFFSET_32           (1 << 1)        /* Prefix with 32 bit offset */
-#define HPP_GROUP_8             (1 << 2)        /* Group every 8 bytes */
-#define HPP_GROUP_16            (1 << 3)        /* Group every 16 bytes */
-#define HPP_ASCII               (1 << 4)        /* Print ASCII after bytes */
-#define HPP_ASCII_ONLY          (1 << 5)        /* Only print ASCII dump */
-#define HPP_LEAD_FIRST          (1 << 6)        /* Print leader first time around otherwise don't */
+#define HPP_OFFSET_16 (1 << 0)  /* Prefix with 16 bit offset */
+#define HPP_OFFSET_32 (1 << 1)  /* Prefix with 32 bit offset */
+#define HPP_GROUP_8 (1 << 2)    /* Group every 8 bytes */
+#define HPP_GROUP_16 (1 << 3)   /* Group every 16 bytes */
+#define HPP_ASCII (1 << 4)      /* Print ASCII after bytes */
+#define HPP_ASCII_ONLY (1 << 5) /* Only print ASCII dump */
+#define HPP_LEAD_FIRST (1 << 6) /* Print leader first time around otherwise don't */
 
-static const char *spaces = "                                                                                                               ";  
+static const char *spaces = "                                                                                                               ";
 
 static inline void
 do_one_ascii(int c)
@@ -41,15 +41,16 @@ do_one_ascii(int c)
     c = '.';
   }
 
-  putc (c, stdout);
+  putc(c, stdout);
 }
 
 static void
-prettyhex (const unsigned char *data, size_t len, uint32_t offs, uint32_t flags, const char *leader)
+prettyhex(const unsigned char *data, size_t len, uint32_t offs, uint32_t flags, const char *leader)
 {
   uint32_t coffs = offs, slen;
   const unsigned char *adata;
   int first = 1;
+  int numspc;
 
   if ((0 == data) || (0 == len)) {
     return;
@@ -68,17 +69,17 @@ prettyhex (const unsigned char *data, size_t len, uint32_t offs, uint32_t flags,
       if (first) {
         first = 0;
         if (flags & HPP_LEAD_FIRST) {
-          printf ("%s", leader);
+          printf("%s", leader);
         }
       } else {
-        printf ("%s", leader);
+        printf("%s", leader);
       }
     }
 
     if (flags & HPP_OFFSET_16) {
-      printf ("0x%04"PRIx32": ", coffs);
+      printf("0x%04" PRIx32 ": ", coffs);
     } else if (flags & HPP_OFFSET_32) {
-      printf ("0x%08"PRIx32": ", coffs);
+      printf("0x%08" PRIx32 ": ", coffs);
     }
 
     adata = data;
@@ -94,9 +95,9 @@ prettyhex (const unsigned char *data, size_t len, uint32_t offs, uint32_t flags,
       }
     } else {
       if (flags & HPP_ASCII_ONLY) {
-        do_one_ascii (*data);
+        do_one_ascii(*data);
       } else {
-        printf ("%02"PRIx8" ", *data);
+        printf("%02" PRIx8 " ", *data);
       }
       data++;
       len--;
@@ -106,52 +107,52 @@ prettyhex (const unsigned char *data, size_t len, uint32_t offs, uint32_t flags,
 
     switch (slen) {
       case 16:
-        printf ("%02"PRIx8" ", *data); data++;
+        printf("%02" PRIx8 " ", *data); data++;
         /* FALLTHRU */
       case 15:
-        printf ("%02"PRIx8" ", *data); data++;
+        printf("%02" PRIx8 " ", *data); data++;
         /* FALLTHRU */
       case 14:
-        printf ("%02"PRIx8" ", *data); data++;
+        printf("%02" PRIx8 " ", *data); data++;
         /* FALLTHRU */
       case 13:
-        printf ("%02"PRIx8" ", *data); data++;
+        printf("%02" PRIx8 " ", *data); data++;
         /* FALLTHRU */
       case 12:
-        printf ("%02"PRIx8" ", *data); data++;
+        printf("%02" PRIx8 " ", *data); data++;
         /* FALLTHRU */
       case 11:
-        printf ("%02"PRIx8" ", *data); data++;
+        printf("%02" PRIx8 " ", *data); data++;
         /* FALLTHRU */
       case 10:
-        printf ("%02"PRIx8" ", *data); data++;
+        printf("%02" PRIx8 " ", *data); data++;
         /* FALLTHRU */
       case 9:
-        printf ("%02"PRIx8" ", *data); data++;
+        printf("%02" PRIx8 "  ", *data); data++;
         /* FALLTHRU */
       case 8:
-        printf ("%02"PRIx8" ", *data); data++;
+        printf("%02" PRIx8 " ", *data); data++;
         /* FALLTHRU */
       case 7:
-        printf ("%02"PRIx8" ", *data); data++;
+        printf("%02" PRIx8 " ", *data); data++;
         /* FALLTHRU */
       case 6:
-        printf ("%02"PRIx8" ", *data); data++;
+        printf("%02" PRIx8 " ", *data); data++;
         /* FALLTHRU */
       case 5:
-        printf ("%02"PRIx8" ", *data); data++;
+        printf("%02" PRIx8 " ", *data); data++;
         /* FALLTHRU */
       case 4:
-        printf ("%02"PRIx8" ", *data); data++;
+        printf("%02" PRIx8 " ", *data); data++;
         /* FALLTHRU */
       case 3:
-        printf ("%02"PRIx8" ", *data); data++;
+        printf("%02" PRIx8 " ", *data); data++;
         /* FALLTHRU */
       case 2:
-        printf ("%02"PRIx8" ", *data); data++;
+        printf("%02" PRIx8 " ", *data); data++;
         /* FALLTHRU */
       case 1:
-        printf ("%02"PRIx8" ", *data); data++;
+        printf("%02" PRIx8 " ", *data); data++;
         /* FALLTHRU */
     }
 
@@ -160,60 +161,65 @@ prettyhex (const unsigned char *data, size_t len, uint32_t offs, uint32_t flags,
 
     if (flags & HPP_ASCII) {
       if (flags & HPP_GROUP_16) {
-        printf ("%.*s", (((16 - slen) + 1) * 3) - 2, spaces);
+        numspc = (((16 - slen) + 1) * 3) - 1;
+        if (slen <= 8) {
+          numspc++;
+        }
       } else {
-        printf ("%.*s", (((8 - slen) + 1) * 3) - 2, spaces);
+        numspc = (((8 - slen) + 1) * 3) - 1;
       }
+      printf("%.*s", numspc, spaces);
 
       switch (slen) {
-      case 16:
-        do_one_ascii (*adata); adata++;
-        /* FALLTHRU */
-      case 15:
-        do_one_ascii (*adata); adata++;
-        /* FALLTHRU */
-      case 14:
-        do_one_ascii (*adata); adata++;
-        /* FALLTHRU */
-      case 13:
-        do_one_ascii (*adata); adata++;
-        /* FALLTHRU */
-      case 12:
-        do_one_ascii (*adata); adata++;
-        /* FALLTHRU */
-      case 11:
-        do_one_ascii (*adata); adata++;
-        /* FALLTHRU */
-      case 10:
-        do_one_ascii (*adata); adata++;
-        /* FALLTHRU */
-      case 9:
-        do_one_ascii (*adata); adata++;
-        /* FALLTHRU */
-      case 8:
-        do_one_ascii (*adata); adata++;
-        /* FALLTHRU */
-      case 7:
-        do_one_ascii (*adata); adata++;
-        /* FALLTHRU */
-      case 6:
-        do_one_ascii (*adata); adata++;
-        /* FALLTHRU */
-      case 5:
-        do_one_ascii (*adata); adata++;
-        /* FALLTHRU */
-      case 4:
-        do_one_ascii (*adata); adata++;
-        /* FALLTHRU */
-      case 3:
-        do_one_ascii (*adata); adata++;
-        /* FALLTHRU */
-      case 2:
-        do_one_ascii (*adata); adata++;
-        /* FALLTHRU */
-      case 1:
-        do_one_ascii (*adata); adata++;
-        /* FALLTHRU */
+        case 16:
+          do_one_ascii(*adata); adata++;
+          /* FALLTHRU */
+        case 15:
+          do_one_ascii(*adata); adata++;
+          /* FALLTHRU */
+        case 14:
+          do_one_ascii(*adata); adata++;
+          /* FALLTHRU */
+        case 13:
+          do_one_ascii(*adata); adata++;
+          /* FALLTHRU */
+        case 12:
+          do_one_ascii(*adata); adata++;
+          /* FALLTHRU */
+        case 11:
+          do_one_ascii(*adata); adata++;
+          /* FALLTHRU */
+        case 10:
+          do_one_ascii(*adata); adata++;
+          /* FALLTHRU */
+        case 9:
+          do_one_ascii(*adata); adata++;
+          putc(' ', stdout);
+          /* FALLTHRU */
+        case 8:
+          do_one_ascii(*adata); adata++;
+          /* FALLTHRU */
+        case 7:
+          do_one_ascii(*adata); adata++;
+          /* FALLTHRU */
+        case 6:
+          do_one_ascii(*adata); adata++;
+          /* FALLTHRU */
+        case 5:
+          do_one_ascii(*adata); adata++;
+          /* FALLTHRU */
+        case 4:
+          do_one_ascii(*adata); adata++;
+          /* FALLTHRU */
+        case 3:
+          do_one_ascii(*adata); adata++;
+          /* FALLTHRU */
+        case 2:
+          do_one_ascii(*adata); adata++;
+          /* FALLTHRU */
+        case 1:
+          do_one_ascii(*adata); adata++;
+          /* FALLTHRU */
       }
     }
     putc('\n', stdout);

@@ -24,88 +24,88 @@
  * SUCH DAMAGE.
  */
 
-#undef  emfile_t
-#define emfile_t                EFCT(emfile)
+#undef emfile_t
+#define emfile_t EFCT(emfile)
 
-#undef  Elf_Ehdr
-#define Elf_Ehdr                ELFT(Ehdr)
+#undef Elf_Ehdr
+#define Elf_Ehdr ELFT(Ehdr)
 
-#undef  Elf_Phdr
-#define Elf_Phdr                ELFT(Phdr)
+#undef Elf_Phdr
+#define Elf_Phdr ELFT(Phdr)
 
-#undef  Elf_Shdr
-#define Elf_Shdr                ELFT(Shdr)
+#undef Elf_Shdr
+#define Elf_Shdr ELFT(Shdr)
 
-#undef  Elf_Dyn
-#define Elf_Dyn                 ELFT(Dyn)
+#undef Elf_Dyn
+#define Elf_Dyn ELFT(Dyn)
 
-#undef  ecint_t
-#define ecint_t                 EFCT(int)
+#undef ecint_t
+#define ecint_t EFCT(int)
 
-#undef  ecuint_t
-#define ecuint_t                EFCT(uint)
+#undef ecuint_t
+#define ecuint_t EFCT(uint)
 
-#undef  elfmod_setup_file
-#define elfmod_setup_file       EFC(elfmod_setup_file)
+#undef elfmod_setup_file
+#define elfmod_setup_file EFC(elfmod_setup_file)
 
-#undef  section_name
-#define section_name            EFC(section_name)
+#undef section_name
+#define section_name EFC(section_name)
 
-#undef  is_nbtls_section
-#define is_nbtls_section        EFC(is_nbtls_section)
+#undef is_nbtls_section
+#define is_nbtls_section EFC(is_nbtls_section)
 
-#undef  is_section_in_segment
-#define is_section_in_segment   EFC(is_section_in_segment)
+#undef is_section_in_segment
+#define is_section_in_segment EFC(is_section_in_segment)
 
-#undef  vma_to_offset
-#define vma_to_offset           EFC(vma_to_offset)
+#undef vma_to_offset
+#define vma_to_offset EFC(vma_to_offset)
 
-#undef  display_header
-#define display_header          EFC(display_header)
+#undef display_header
+#define display_header EFC(display_header)
 
-#undef  display_sections
-#define display_sections        EFC(display_sections)
+#undef display_sections
+#define display_sections EFC(display_sections)
 
-#undef  display_dynamic
-#define display_dynamic         EFC(display_dynamic)
+#undef display_dynamic
+#define display_dynamic EFC(display_dynamic)
 
-#undef  display_dyn_entries
-#define display_dyn_entries     EFC(display_dyn_entries)
+#undef display_dyn_entries
+#define display_dyn_entries EFC(display_dyn_entries)
 
-#undef  process_file
-#define process_file            EFC(process_file)
+#undef process_file
+#define process_file EFC(process_file)
 
-#undef  add_alignment
-#define add_alignment           EFC(add_alignment)
+#undef add_alignment
+#define add_alignment EFC(add_alignment)
 
-#undef  find_dynstr
-#define find_dynstr             EFC(find_dynstr)
+#undef find_dynstr
+#define find_dynstr EFC(find_dynstr)
 
 typedef struct {
-  unsigned char *data;          /* Pointer to whole file memory map */
-  size_t dlen;                  /* Total size of mapped file */
-  Elf_Ehdr *ehdr;               /* Points to start of file (ELF header) */
-  Elf_Phdr *phdr;               /* Start of program headers */
-  Elf_Shdr *shdr;               /* Start of section headers */
-  Elf_Dyn *dyn;                 /* Start of PT_DYNAMIC segment */
-  uint32_t e_phnum;             /* Number of program headers */
-  ecuint_t e_shnum;             /* Number of section headers */
-  ecuint_t e_shstrndx;          /* Section index of section name string table */
-  uint32_t e_dynum;             /* Number of entries in dynamic segment */
-  ecuint_t e_dynoff;            /* Offset into file of dynamic segment */
-  uint32_t interp_ph;           /* Program header of PT_INTERP segment */
-  uint32_t dynamic_ph;          /* Program header of PT_DYNAMIC segment */
-  ecuint_t interp_sh;           /* Section header of interpreter section */
-  ecuint_t dynamic_sh;          /* Section header of dynamic section */
-  ecuint_t dt_strtab;           /* Dynamic string table */
-  ecuint_t dt_strsz;            /* Dynamic string table size */
-  const char *shnstrs;          /* Pointer to start of section name string table */
-  char *dynstrs;                /* Pointer to start of dynamic string table */
-  ecuint_t vmoffs;              /* Base VMA offset */
+  unsigned char *data;     /* Pointer to whole file memory map */
+  size_t dlen;             /* Total size of mapped file */
+  Elf_Ehdr *ehdr;          /* Points to start of file (ELF header) */
+  Elf_Phdr *phdr;          /* Start of program headers */
+  Elf_Shdr *shdr;          /* Start of section headers */
+  Elf_Dyn *dyn;            /* Start of PT_DYNAMIC segment */
+  uint32_t e_phnum;        /* Number of program headers */
+  ecuint_t e_shnum;        /* Number of section headers */
+  ecuint_t e_shstrndx;     /* Section index of section name string table */
+  uint32_t e_dynum;        /* Number of entries in dynamic segment */
+  ecuint_t e_dynoff;       /* Offset into file of dynamic segment */
+  uint32_t interp_ph;      /* Program header of PT_INTERP segment */
+  uint32_t dynamic_ph;     /* Program header of PT_DYNAMIC segment */
+  ecuint_t interp_sh;      /* Section header of interpreter section */
+  ecuint_t dynamic_sh;     /* Section header of dynamic section */
+  ecuint_t dt_strtab;      /* Dynamic string table */
+  ecuint_t dt_strsz;       /* Dynamic string table size */
+  const char *shnstrs;     /* Pointer to start of section name string table */
+  char *dynstrs;           /* Pointer to start of dynamic string table */
+  ecuint_t vmoffs;         /* Base VMA offset */
 } emfile_t;
 
 static inline ecuint_t
-add_alignment (ecuint_t base, ecuint_t alignment)
+add_alignment(ecuint_t base, ecuint_t alignment)
 {
   if (alignment > 1) {
     base += (alignment - 1);
@@ -122,7 +122,7 @@ add_alignment (ecuint_t base, ecuint_t alignment)
  * end up in the actual process memory at runtime.
  */
 static inline ecuint_t
-vma_to_offset (const emfile_t *e, ecuint_t vma, ecuint_t sz)
+vma_to_offset(const emfile_t *e, ecuint_t vma, ecuint_t sz)
 {
   uint16_t phi;
 
@@ -151,7 +151,7 @@ vma_to_offset (const emfile_t *e, ecuint_t vma, ecuint_t sz)
  * string table.
  */
 static inline const char *
-section_name (const emfile_t *e, uint64_t sidx)
+section_name(const emfile_t *e, uint64_t sidx)
 {
   return e->shnstrs + e->shdr[sidx].sh_name;
 }
@@ -160,7 +160,7 @@ section_name (const emfile_t *e, uint64_t sidx)
  * Check to see if a section is of type SHT_NOBITS and is a TLS section.
  */
 static inline int
-is_nbtls_section (const emfile_t *e, ecuint_t si)
+is_nbtls_section(const emfile_t *e, ecuint_t si)
 {
   if ((e->shdr[si].sh_flags & SHF_TLS) &&
       (e->shdr[si].sh_type == SHT_NOBITS)) {
@@ -173,7 +173,7 @@ is_nbtls_section (const emfile_t *e, ecuint_t si)
  * Check to see if the section index is within the program segment.
  */
 static inline int
-is_section_in_segment (const emfile_t *e, ecuint_t si, int pi)
+is_section_in_segment(const emfile_t *e, ecuint_t si, int pi)
 {
   const Elf_Shdr *sp = &e->shdr[si];
   const Elf_Phdr *pp = &e->phdr[pi];
@@ -240,24 +240,24 @@ is_section_in_segment (const emfile_t *e, ecuint_t si, int pi)
  * well returns 0.
  */
 static inline int
-elfmod_setup_file (emfile_t *e, unsigned char *data, size_t dlen)
+elfmod_setup_file(emfile_t *e, unsigned char *data, size_t dlen)
 {
   uint32_t x;
   ecuint_t shi, stroff = 0;
 
-  memset (e, 0, sizeof (*e));
+  memset(e, 0, sizeof(*e));
 
   e->data = data;
   e->dlen = dlen;
   e->ehdr = (Elf_Ehdr *)data;
 
   if (e->ehdr->e_type != ET_EXEC && e->ehdr->e_type != ET_DYN) {
-    fprintf (stderr, "%s warning: skipping `%s' - invalid type 0x%04"PRIx16"\n", progname, curfile, e->ehdr->e_type);
+    fprintf(stderr, "%s warning: skipping `%s' - invalid type 0x%04" PRIx16 "\n", progname, curfile, e->ehdr->e_type);
     return 1;
   }
 
   if (0 == e->ehdr->e_phnum) {
-    fprintf (stderr, "%s warning: skipping `%s' - no program headers\n", progname, curfile);
+    fprintf(stderr, "%s warning: skipping `%s' - no program headers\n", progname, curfile);
     return 1;
   }
 
@@ -312,12 +312,12 @@ elfmod_setup_file (emfile_t *e, unsigned char *data, size_t dlen)
   }
 
   if ((e->ehdr->e_type == ET_EXEC) && (e->interp_ph == 0)) {
-    fprintf (stderr, "%s warning: skipping `%s' - executable has no interpreter.\n", progname, curfile);
+    fprintf(stderr, "%s warning: skipping `%s' - executable has no interpreter.\n", progname, curfile);
     return 1;
   }
 
   if (e->dynamic_ph == 0) {
-    fprintf (stderr, "%s warning: skipping `%s' - no PT_DYNAMIC segment.\n", progname, curfile);
+    fprintf(stderr, "%s warning: skipping `%s' - no PT_DYNAMIC segment.\n", progname, curfile);
     return 1;
   }
 
@@ -328,7 +328,8 @@ elfmod_setup_file (emfile_t *e, unsigned char *data, size_t dlen)
    * states that a NULL entry terminates the list so instead we walk the list
    * looking for that entry (and include it in the count).
    */
-  while (e->dyn[e->e_dynum++].d_tag != DT_NULL) /* Do nothing */;
+  while (e->dyn[e->e_dynum++].d_tag != DT_NULL)
+    ; /* Do nothing */
 
   for (x = 0; x < e->e_dynum; x++) {
     const Elf_Dyn *dyn = &e->dyn[x];
@@ -341,18 +342,18 @@ elfmod_setup_file (emfile_t *e, unsigned char *data, size_t dlen)
   }
 
   if (0 == e->dt_strtab) {
-    fprintf (stderr, "%s warning: skipping `%s' - no DT_STRTAB found.\n", progname, curfile);
+    fprintf(stderr, "%s warning: skipping `%s' - no DT_STRTAB found.\n", progname, curfile);
     return 1;
   }
 
   if (0 == e->dt_strsz) {
-    fprintf (stderr, "%s warning: skipping `%s' - no DT_STRSZ found.\n", progname, curfile);
+    fprintf(stderr, "%s warning: skipping `%s' - no DT_STRSZ found.\n", progname, curfile);
     return 1;
   }
 
-  stroff = vma_to_offset (e, e->dt_strtab, e->dt_strsz);
+  stroff = vma_to_offset(e, e->dt_strtab, e->dt_strsz);
   if (0 == stroff) {
-    fprintf (stderr, "%s warning: skipping `%s' - no dynamic string table found.\n", progname, curfile);
+    fprintf(stderr, "%s warning: skipping `%s' - no dynamic string table found.\n", progname, curfile);
     return 1;
   }
 
@@ -366,9 +367,9 @@ elfmod_setup_file (emfile_t *e, unsigned char *data, size_t dlen)
    */
   if (e->interp_ph) {
     for (shi = 0; shi < e->e_shnum; shi++) {
-      if (is_section_in_segment (e, shi, e->interp_ph)) {
+      if (is_section_in_segment(e, shi, e->interp_ph)) {
         if ((e->phdr[e->interp_ph].p_vaddr == e->shdr[shi].sh_addr) &&
-          (e->phdr[e->interp_ph].p_memsz == e->shdr[shi].sh_size)) {
+            (e->phdr[e->interp_ph].p_memsz == e->shdr[shi].sh_size)) {
           e->interp_sh = shi;
           break;
         }
@@ -380,9 +381,9 @@ elfmod_setup_file (emfile_t *e, unsigned char *data, size_t dlen)
    * We always have a dynamic segment, so find it's backing section.
    */
   for (shi = 0; shi < e->e_shnum; shi++) {
-    if (is_section_in_segment (e, shi, e->dynamic_ph)) {
+    if (is_section_in_segment(e, shi, e->dynamic_ph)) {
       if ((e->phdr[e->dynamic_ph].p_vaddr == e->shdr[shi].sh_addr) &&
-        (e->phdr[e->dynamic_ph].p_memsz == e->shdr[shi].sh_size)) {
+          (e->phdr[e->dynamic_ph].p_memsz == e->shdr[shi].sh_size)) {
         e->dynamic_sh = shi;
         break;
       }
@@ -390,7 +391,7 @@ elfmod_setup_file (emfile_t *e, unsigned char *data, size_t dlen)
   }
 
   if (0 == e->dynamic_sh) {
-    fprintf (stderr, "%s warning: skipping `%s' - no dynamic section found.\n", progname, curfile);
+    fprintf(stderr, "%s warning: skipping `%s' - no dynamic section found.\n", progname, curfile);
     return 1;
   }
 
@@ -398,106 +399,117 @@ elfmod_setup_file (emfile_t *e, unsigned char *data, size_t dlen)
 }
 
 static void
-display_header (const emfile_t *e, int debug)
+display_header(const emfile_t *e, int debug)
 {
   uint16_t phi;
   ecuint_t shi, ph_start, ph_end, vm_start, vm_end, od_start, od_end;
   const unsigned char *data = e->data;
 
-  printf (" ELF header:\n");
+  printf(" ELF header:\n");
 
-  printf ("  File name:                  %s\n", curfile);
+  printf("  File name:                  %s\n", curfile);
 
-  printf ("  File size:                  "PRIeu" byte%s\n", plural ((ecuint_t)e->dlen));
+  printf("  File size:                  " PRIeu " byte%s\n", plural((ecuint_t)e->dlen));
 
-  printf ("  File range on disk:         "PRIex" - "PRIex"\n", (ecuint_t)0, (ecuint_t)e->dlen);
+  printf("  File range on disk:         " PRIex " - " PRIex "\n", (ecuint_t)0, (ecuint_t)e->dlen);
 
-  printf ("  Identifier:                 ");
-  prettyhex (data, EI_NIDENT, 0, 0, 0);
-  putc ('\n', stdout);
+  printf("  Identifier:                 ");
+  prettyhex(data, EI_NIDENT, 0, 0, 0);
+  putc('\n', stdout);
 
-  printf ("  Class:                      ELFCLASS" ELFCS "\n");
+  printf("  Class:                      ELFCLASS" ELFCS "\n");
 
-  printf ("  Data:                       ");
+  printf("  Data:                       ");
   switch (data[EI_DATA]) {
     case ELFDATA2LSB:
-      printf ("2's complement, little endian\n"); break;
+      printf("2's complement, little endian\n");
+      break;
     case ELFDATA2MSB:
-      printf ("2's complement, big endian\n"); break;
+      printf("2's complement, big endian\n");
+      break;
     default:
-      printf ("0x%02"PRIx8, (int)data[EI_DATA]); break;
+      printf("0x%02" PRIx8, (int)data[EI_DATA]);
+      break;
   }
 
-  printf ("  Version:                    ");
-  printf ("%d", data[EI_VERSION]);
+  printf("  Version:                    ");
+  printf("%d", data[EI_VERSION]);
   if (EV_CURRENT == data[EI_VERSION]) {
-    printf (" (current)\n");
+    printf(" (current)\n");
   } else {
-    putc ('\n', stdout);
+    putc('\n', stdout);
   }
 
-  printf ("  OS/ABI:                     ");
+  printf("  OS/ABI:                     ");
   switch (data[EI_OSABI]) {
 #undef OSABIENT
-#define OSABIENT(name,desc)     \
-    case ELF##name:             \
-      printf (#name " (%s)\n", desc); break;
+#define OSABIENT(name, desc)       \
+  case ELF##name:                  \
+    printf(#name " (%s)\n", desc); \
+    break;
 #include "osabi.h"
 
     default:
-      printf ("0x%02"PRIx8" (UNKNOWN)\n", data[EI_OSABI]); break;
+      printf("0x%02" PRIx8 " (UNKNOWN)\n", data[EI_OSABI]);
+      break;
   }
 
-  printf ("  ABI Version:                0x%02"PRIx8" (%"PRIu8")\n", data[EI_ABIVERSION], data[EI_ABIVERSION]);
+  printf("  ABI Version:                0x%02" PRIx8 " (%" PRIu8 ")\n", data[EI_ABIVERSION], data[EI_ABIVERSION]);
 
-  printf ("  Type:                       ");
+  printf("  Type:                       ");
   switch (e->ehdr->e_type) {
-    case ET_EXEC: printf ("ET_EXEC (executable file)\n"); break;
-    case ET_DYN: printf ("ET_DYN (shared object file)\n"); break;
-    /* All others filtered out before we get here. */
+    case ET_EXEC:
+      printf("ET_EXEC (executable file)\n");
+      break;
+    case ET_DYN:
+      printf("ET_DYN (shared object file)\n");
+      break;
+      /* All others filtered out before we get here. */
   }
 
-  printf ("  Machine:                    ");
+  printf("  Machine:                    ");
   switch (e->ehdr->e_machine) {
 #undef EMACHENT
-#define EMACHENT(name, desc)    \
-    case EM_##name:             \
-      printf ("EM_" #name " (%s)\n", desc); break;
+#define EMACHENT(name, desc)             \
+  case EM_##name:                        \
+    printf("EM_" #name " (%s)\n", desc); \
+    break;
 #include "e_machine.h"
 
     default:
-      printf ("UNKNOWN (0x%04"PRIx16")\n", e->ehdr->e_machine); break;
+      printf("UNKNOWN (0x%04" PRIx16 ")\n", e->ehdr->e_machine);
+      break;
   }
 
-  printf ("  Flags:                      0x%08"PRIx32"\n", e->ehdr->e_flags);
+  printf("  Flags:                      0x%08" PRIx32 "\n", e->ehdr->e_flags);
 
-  printf ("  Entry Point:                "PRIex"\n", e->ehdr->e_entry);
+  printf("  Entry Point:                " PRIex "\n", e->ehdr->e_entry);
 
-  printf ("  This header size:           0x%04"PRIx16" (%"PRIu16" byte%s)\n", e->ehdr->e_ehsize, plural (e->ehdr->e_ehsize));
+  printf("  This header size:           0x%04" PRIx16 " (%" PRIu16 " byte%s)\n", e->ehdr->e_ehsize, plural(e->ehdr->e_ehsize));
 
-  printf ("  Program header offset:      "PRIex" ("PRIeu" byte%s into file)\n", e->ehdr->e_phoff, plural (e->ehdr->e_phoff));
+  printf("  Program header offset:      " PRIex " (" PRIeu " byte%s into file)\n", e->ehdr->e_phoff, plural(e->ehdr->e_phoff));
 
-  printf ("  Section header offset:      "PRIex" ("PRIeu" byte%s into file)\n", e->ehdr->e_shoff, plural (e->ehdr->e_shoff));
+  printf("  Section header offset:      " PRIex " (" PRIeu " byte%s into file)\n", e->ehdr->e_shoff, plural(e->ehdr->e_shoff));
 
-  printf ("  Number of program headers:  %"PRIu16" (each %"PRIu16" byte%s long)\n", e->e_phnum, plural (e->ehdr->e_phentsize));
+  printf("  Number of program headers:  %" PRIu16 " (each %" PRIu16 " byte%s long)\n", e->e_phnum, plural(e->ehdr->e_phentsize));
 
-  printf ("  Number of section headers:  "PRIeu" (each %"PRIu16" byte%s long)\n", e->e_shnum, plural (e->ehdr->e_shentsize));
+  printf("  Number of section headers:  " PRIeu " (each %" PRIu16 " byte%s long)\n", e->e_shnum, plural(e->ehdr->e_shentsize));
 
-  printf ("  Program headers range:      "PRIex" - "PRIex" (on disk)\n", e->ehdr->e_phoff, e->ehdr->e_phoff + (e->ehdr->e_phnum * e->ehdr->e_phentsize));
+  printf("  Program headers range:      " PRIex " - " PRIex " (on disk)\n", e->ehdr->e_phoff, e->ehdr->e_phoff + (e->ehdr->e_phnum * e->ehdr->e_phentsize));
 
-  printf ("  Section headers range:      "PRIex" - "PRIex" (on disk)\n", e->ehdr->e_shoff, e->ehdr->e_shoff + (e->ehdr->e_shnum * e->ehdr->e_shentsize));
+  printf("  Section headers range:      " PRIex " - " PRIex " (on disk)\n", e->ehdr->e_shoff, e->ehdr->e_shoff + (e->ehdr->e_shnum * e->ehdr->e_shentsize));
 
-  printf ("  Section name string table:  section #"PRIeu" (%s)\n", e->e_shstrndx, section_name (e, e->e_shstrndx));
+  printf("  Section name string table:  section #" PRIeu " (%s)\n", e->e_shstrndx, section_name(e, e->e_shstrndx));
 
-  printf ("  Base VM address:            "PRIex"\n", e->vmoffs);
+  printf("  Base VM address:            " PRIex "\n", e->vmoffs);
 
   if (debug) {
-    printf ("  Raw header bytes:\n");
-    prettyhex (data, e->ehdr->e_ehsize, 0, HPP_GROUP_16 | HPP_OFFSET_16 | HPP_ASCII | HPP_LEAD_FIRST, "    ");
+    printf("  Raw header bytes:\n");
+    prettyhex(data, e->ehdr->e_ehsize, 0, HPP_GROUP_16 | HPP_OFFSET_16 | HPP_ASCII | HPP_LEAD_FIRST, "    ");
   }
 
-  printf ("\n");
-  printf (" Program headers:\n");
+  printf("\n");
+  printf(" Program headers:\n");
 
   for (phi = 0; phi < e->e_phnum; phi++) {
     const Elf_Phdr *phe = &e->phdr[phi];
@@ -509,84 +521,86 @@ display_header (const emfile_t *e, int debug)
     ph_start = phe->p_paddr;
     ph_end = ph_start + phe->p_memsz;
 
-    printf ("  Program segment #%"PRIu16":\n", phi);
+    printf("  Program segment #%" PRIu16 ":\n", phi);
 
-    printf ("    Type:                    ");
+    printf("    Type:                    ");
     switch (phe->p_type) {
 #undef PTYPEENT
-#define PTYPEENT(type)          \
-      case PT_##type:           \
-        printf(#type); break;
+#define PTYPEENT(type) \
+  case PT_##type:      \
+    printf(#type);     \
+    break;
 #include "p_type.h"
 
       default:
-        printf ("UNKNOWN"); break;
+        printf("UNKNOWN");
+        break;
     }
-    printf (" (0x%"PRIx32")\n", phe->p_type);
+    printf(" (0x%" PRIx32 ")\n", phe->p_type);
 
     if (PT_INTERP == phe->p_type) {
-      printf ("    Interpreter:             %s\n", (const char *)data + phe->p_offset);
+      printf("    Interpreter:             %s\n", (const char *)data + phe->p_offset);
     }
 
-    printf ("    Flags:                   %c%c%c (0x%"PRIx32")\n",
-      phe->p_flags & PF_R ? 'r' : '-',
-      phe->p_flags & PF_W ? 'w' : '-',
-      phe->p_flags & PF_X ? 'x' : '-',  phe->p_flags);
+    printf("    Flags:                   %c%c%c (0x%" PRIx32 ")\n",
+        phe->p_flags & PF_R ? 'r' : '-',
+        phe->p_flags & PF_W ? 'w' : '-',
+        phe->p_flags & PF_X ? 'x' : '-', phe->p_flags);
 
-    printf ("    Offset:                  "PRIex" ("PRIeu" byte%s into file)\n", phe->p_offset, plural (phe->p_offset));
+    printf("    Offset:                  " PRIex " (" PRIeu " byte%s into file)\n", phe->p_offset, plural(phe->p_offset));
 
-    printf ("    Size on disk:            "PRIex" ("PRIeu" byte%s)\n", phe->p_filesz, plural (phe->p_filesz));
+    printf("    Size on disk:            " PRIex " (" PRIeu " byte%s)\n", phe->p_filesz, plural(phe->p_filesz));
 
-    printf ("    Size in memory:          "PRIex" ("PRIeu" byte%s)\n", phe->p_memsz, plural (phe->p_memsz));
+    printf("    Size in memory:          " PRIex " (" PRIeu " byte%s)\n", phe->p_memsz, plural(phe->p_memsz));
 
-    printf ("    Range on disk:           "PRIex" - "PRIex"\n", od_start, od_end);
+    printf("    Range on disk:           " PRIex " - " PRIex "\n", od_start, od_end);
 
-    printf ("    Virtual address range:   "PRIex" - "PRIex"\n", vm_start, vm_end);
+    printf("    Virtual address range:   " PRIex " - " PRIex "\n", vm_start, vm_end);
 
-    printf ("    Physical address range:  "PRIex" - "PRIex"\n", ph_start, ph_end);
+    printf("    Physical address range:  " PRIex " - " PRIex "\n", ph_start, ph_end);
 
-    printf ("    Alignment:               "PRIex" ("PRIeu" byte%s)\n", phe->p_align, plural (phe->p_align));
+    printf("    Alignment:               " PRIex " (" PRIeu " byte%s)\n", phe->p_align, plural(phe->p_align));
 
     /*
      * Print the sections that map into this segment. For this we need go
      * through each and every section and see if its addresses fall within
      * the addresses of this segment.
      */
-    printf ("    Sections:               ");
+    printf("    Sections:               ");
     for (shi = 0; shi < e->e_shnum; shi++) {
       const Elf_Shdr *shp = &e->shdr[shi];
 
-      if ((shp->sh_type == SHT_NULL) || is_nbtls_section (e, shi) || !is_section_in_segment (e, shi, phi)) {
+      if ((shp->sh_type == SHT_NULL) || is_nbtls_section(e, shi) || !is_section_in_segment(e, shi, phi)) {
         continue;
       }
 
-      printf (" %s", section_name (e, shi));
+      printf(" %s", section_name(e, shi));
     }
-    putc ('\n', stdout);
+    putc('\n', stdout);
 
     if (PT_NOTE == phe->p_type) {
-      printf ("    Note data:\n");
-      prettyhex (data + phe->p_offset, phe->p_filesz, 0, HPP_GROUP_16 | HPP_OFFSET_16 | HPP_ASCII | HPP_LEAD_FIRST, "      ");
+      printf("    Note data:\n");
+      prettyhex(data + phe->p_offset, phe->p_filesz, 0, HPP_GROUP_16 | HPP_OFFSET_16 | HPP_ASCII | HPP_LEAD_FIRST, "      ");
     }
   }
 
   if (debug) {
-    printf ("  Raw program table bytes:\n");
-    prettyhex (data + e->ehdr->e_phoff, e->e_phnum * e->ehdr->e_phentsize, e->ehdr->e_phoff,
-      HPP_GROUP_16 | HPP_OFFSET_32 | HPP_ASCII | HPP_LEAD_FIRST, "    ");
+    printf("  Raw program table bytes:\n");
+    prettyhex(data + e->ehdr->e_phoff, e->e_phnum * e->ehdr->e_phentsize, e->ehdr->e_phoff,
+        HPP_GROUP_16 | HPP_OFFSET_32 | HPP_ASCII | HPP_LEAD_FIRST, "    ");
   }
-  putc ('\n', stdout);
+  putc('\n', stdout);
 }
 
 static void
-display_sections (const emfile_t *e, int debug)
+display_sections(const emfile_t *e, int debug)
 {
   const unsigned char *data = e->data;
   const char *shnstrs = e->shnstrs;
   uint16_t phi;
   ecuint_t shi, vm_start, vm_end, od_start, od_end;
 
-  printf (" Section headers:\n");
+  printf(" Section headers:\n");
 
   for (shi = 0; shi < e->e_shnum; shi++) {
     const Elf_Shdr *shp = &e->shdr[shi];
@@ -596,101 +610,104 @@ display_sections (const emfile_t *e, int debug)
     vm_start = shp->sh_addr;
     vm_end = vm_start + shp->sh_size;
 
-    printf ("  Section header #"PRIeu":\n", shi);
+    printf("  Section header #" PRIeu ":\n", shi);
 
-    printf ("    Name:                  %s\n", shnstrs + shp->sh_name);
+    printf("    Name:                  %s\n", shnstrs + shp->sh_name);
 
-    printf ("    Type:                  ");
+    printf("    Type:                  ");
     switch (shp->sh_type) {
 #undef SHTYPEENT
-#define SHTYPEENT(type,desc)    \
-      case SHT_##type:          \
-        printf(#type "\n"); break;
+#define SHTYPEENT(type, desc) \
+  case SHT_##type:            \
+    printf(#type "\n");       \
+    break;
 #include "sh_type.h"
 
       default:
-        printf ("0x%"PRIx32"\n", shp->sh_type); break;
+        printf("0x%" PRIx32 "\n", shp->sh_type);
+        break;
     }
 
-    printf ("    Flags:                 %c%c%c%c%c%c%c%c%c%c%c%c%c ("PRI8x")\n",
-      (shp->sh_flags & SHF_WRITE) ? 'w' : '-',
-      (shp->sh_flags & SHF_ALLOC) ? 'a' : '-',
-      (shp->sh_flags & SHF_EXECINSTR) ? 'x' : '-',
-      (shp->sh_flags & SHF_MERGE) ? 'm' : '-',
-      (shp->sh_flags & SHF_STRINGS) ? 's' : '-',
-      (shp->sh_flags & SHF_INFO_LINK) ? 'i' : '-',
-      (shp->sh_flags & SHF_LINK_ORDER) ? 'l' : '-',
-      (shp->sh_flags & SHF_OS_NONCONFORMING) ? 'o' : '-',
-      (shp->sh_flags & SHF_GROUP) ? 'g' : '-',
-      (shp->sh_flags & SHF_TLS) ? 't' : '-',
-      (shp->sh_flags & SHF_COMPRESSED) ? 'c' : '-',
-      (shp->sh_flags & SHF_ORDERED) ? 'O' : '-',
-      (shp->sh_flags & SHF_EXCLUDE) ? 'e' : '-',
-      shp->sh_flags);
+    printf("    Flags:                 %c%c%c%c%c%c%c%c%c%c%c%c%c (" PRI8x ")\n",
+        (shp->sh_flags & SHF_WRITE) ? 'w' : '-',
+        (shp->sh_flags & SHF_ALLOC) ? 'a' : '-',
+        (shp->sh_flags & SHF_EXECINSTR) ? 'x' : '-',
+        (shp->sh_flags & SHF_MERGE) ? 'm' : '-',
+        (shp->sh_flags & SHF_STRINGS) ? 's' : '-',
+        (shp->sh_flags & SHF_INFO_LINK) ? 'i' : '-',
+        (shp->sh_flags & SHF_LINK_ORDER) ? 'l' : '-',
+        (shp->sh_flags & SHF_OS_NONCONFORMING) ? 'o' : '-',
+        (shp->sh_flags & SHF_GROUP) ? 'g' : '-',
+        (shp->sh_flags & SHF_TLS) ? 't' : '-',
+        (shp->sh_flags & SHF_COMPRESSED) ? 'c' : '-',
+        (shp->sh_flags & SHF_ORDERED) ? 'O' : '-',
+        (shp->sh_flags & SHF_EXCLUDE) ? 'e' : '-',
+        shp->sh_flags);
 
-    printf ("    Memory address:        "PRIex"\n", shp->sh_addr);
+    printf("    Memory address:        " PRIex "\n", shp->sh_addr);
 
-    printf ("    File offset:           "PRIex" ("PRIeu" byte%s into file)\n", shp->sh_offset, plural (shp->sh_offset));
+    printf("    File offset:           " PRIex " (" PRIeu " byte%s into file)\n", shp->sh_offset, plural(shp->sh_offset));
 
-    printf ("    Section size:          "PRIex" ("PRIeu" byte%s)\n", shp->sh_size, plural (shp->sh_size));
+    printf("    Section size:          " PRIex " (" PRIeu " byte%s)\n", shp->sh_size, plural(shp->sh_size));
 
-    printf ("    Linked section:        0x%08"PRIx32" (%"PRIu32")", shp->sh_link, shp->sh_link);
+    printf("    Linked section:        0x%08" PRIx32 " (%" PRIu32 ")", shp->sh_link, shp->sh_link);
     if (shp->sh_link) {
-      printf (" [%s]", section_name (e, shp->sh_link));
+      printf(" [%s]", section_name(e, shp->sh_link));
     }
-    putc ('\n', stdout);
+    putc('\n', stdout);
 
-    printf ("    Section info:          0x%08"PRIx32" (%"PRIu32")\n", shp->sh_info, shp->sh_info);
+    printf("    Section info:          0x%08" PRIx32 " (%" PRIu32 ")\n", shp->sh_info, shp->sh_info);
 
-    printf ("    Entry size:            "PRIex" ("PRIeu" byte%s)\n", shp->sh_entsize, plural (shp->sh_entsize));
+    printf("    Entry size:            " PRIex " (" PRIeu " byte%s)\n", shp->sh_entsize, plural(shp->sh_entsize));
 
-    printf ("    Range on disk:         "PRIex" - "PRIex"\n", od_start, od_end);
+    printf("    Range on disk:         " PRIex " - " PRIex "\n", od_start, od_end);
 
-    printf ("    Virtual address range: "PRIex" - "PRIex"\n", vm_start, vm_end);
+    printf("    Virtual address range: " PRIex " - " PRIex "\n", vm_start, vm_end);
 
-    printf ("    Address alignment:     "PRIex" ("PRIeu" byte%s)\n", shp->sh_addralign, plural (shp->sh_addralign));
+    printf("    Address alignment:     " PRIex " (" PRIeu " byte%s)\n", shp->sh_addralign, plural(shp->sh_addralign));
 
-    printf ("    Program segments:     ");
+    printf("    Program segments:     ");
     for (phi = 0; phi < e->e_phnum; phi++) {
-      if ((shp->sh_type == SHT_NULL) || is_nbtls_section (e, shi) || !is_section_in_segment (e, shi, phi)) {
+      if ((shp->sh_type == SHT_NULL) || is_nbtls_section(e, shi) || !is_section_in_segment(e, shi, phi)) {
         continue;
       }
-      printf (" #%"PRIu16, phi);
+      printf(" #%" PRIu16, phi);
     }
-    putc ('\n', stdout);
+    putc('\n', stdout);
   }
 
   if (debug) {
-    printf ("  Raw section table bytes:\n");
-    prettyhex (data + e->ehdr->e_shoff, e->e_shnum * e->ehdr->e_shentsize, e->ehdr->e_shoff,
-      HPP_GROUP_16 | HPP_OFFSET_32 | HPP_ASCII | HPP_LEAD_FIRST, "    ");
+    printf("  Raw section table bytes:\n");
+    prettyhex(data + e->ehdr->e_shoff, e->e_shnum * e->ehdr->e_shentsize, e->ehdr->e_shoff,
+        HPP_GROUP_16 | HPP_OFFSET_32 | HPP_ASCII | HPP_LEAD_FIRST, "    ");
   }
 
-  putc ('\n', stdout);
+  putc('\n', stdout);
 }
 
 static void
-display_dynamic (const emfile_t *e, int debug)
+display_dynamic(const emfile_t *e, int debug)
 {
   uint32_t dti;
 
-  printf (" Dynamic section at offset "PRIex" ("PRIeu") has %"PRIu32" entr%s:\n", e->e_dynoff, e->e_dynoff, pluraly(e->e_dynum));
+  printf(" Dynamic section at offset " PRIex " (" PRIeu ") has %" PRIu32 " entr%s:\n", e->e_dynoff, e->e_dynoff, pluraly(e->e_dynum));
 
-  printf ("   Tag"EXSPACES"         Name                Value\n");
+  printf("   Tag" EXSPACES "         Name                Value\n");
 
   for (dti = 0; dti < e->e_dynum; dti++) {
     const Elf_Dyn *dyn = &e->dyn[dti];
 
-    printf ("   "PRIex"  ", dyn->d_tag);
+    printf("   " PRIex "  ", dyn->d_tag);
     switch (dyn->d_tag) {
-#undef  DYNTAGENT
-#define DYNTAGENT(ent)                  \
-      case DT_##ent:                    \
-        printf ("%-20s", #ent); break;
+#undef DYNTAGENT
+#define DYNTAGENT(ent)     \
+  case DT_##ent:           \
+    printf("%-20s", #ent); \
+    break;
 #include "dyn_dtags.h"
 
       default:
-        printf ("%-20s", "UNKNOWN");
+        printf("%-20s", "UNKNOWN");
         break;
     }
 
@@ -699,37 +716,37 @@ display_dynamic (const emfile_t *e, int debug)
       case DT_RPATH:
       case DT_RUNPATH:
       case DT_SONAME:
-        printf ("%s\n", e->dynstrs + dyn->d_un.d_val);
+        printf("%s\n", e->dynstrs + dyn->d_un.d_val);
         break;
 
       default:
-        printf (PRIex"\n", dyn->d_un.d_val);
+        printf(PRIex "\n", dyn->d_un.d_val);
         break;
     }
   }
 
   if (debug) {
-    putc ('\n', stdout);
-    printf ("  Raw dynamic section bytes:\n");
-    prettyhex (e->data + e->e_dynoff, e->e_dynum * sizeof (Elf_Dyn), e->e_dynoff,
-      HPP_GROUP_16 | HPP_OFFSET_32 | HPP_ASCII | HPP_LEAD_FIRST, "    ");
-    putc ('\n', stdout);
+    putc('\n', stdout);
+    printf("  Raw dynamic section bytes:\n");
+    prettyhex(e->data + e->e_dynoff, e->e_dynum * sizeof(Elf_Dyn), e->e_dynoff,
+        HPP_GROUP_16 | HPP_OFFSET_32 | HPP_ASCII | HPP_LEAD_FIRST, "    ");
+    putc('\n', stdout);
   }
 
-  putc ('\n', stdout);
+  putc('\n', stdout);
 }
 
 /*
  * Similar to the above but more suited for command line usage.
  */
 static void
-display_dyn_entries (const emfile_t *e, uint32_t dflags)
+display_dyn_entries(const emfile_t *e, uint32_t dflags)
 {
   uint32_t dti;
 
   if ((dflags & DISPLAY_INTERP) && (e->interp_ph != 0)) {
     const Elf_Phdr *ph = &e->phdr[e->interp_ph];
-    printf ("%s\n", (const char *)e->data + ph->p_offset);
+    printf("%s\n", (const char *)e->data + ph->p_offset);
   }
 
   for (dti = 0; dti < e->e_dynum; dti++) {
@@ -763,22 +780,22 @@ display_dyn_entries (const emfile_t *e, uint32_t dflags)
     }
 
     if (d) {
-      printf ("%s\n", e->dynstrs + dyn->d_un.d_val);
+      printf("%s\n", e->dynstrs + dyn->d_un.d_val);
     }
   }
 }
 
 static char *
-find_dynstr (const emfile_t *e, const char *str)
+find_dynstr(const emfile_t *e, const char *str)
 {
   char *csmax = e->dynstrs + e->dt_strsz;
   char *cs = e->dynstrs;
-  size_t osl = strlen (str) + 1;
+  size_t osl = strlen(str) + 1;
 
   while (cs < csmax) {
-    size_t sl = strlen (cs) + 1;
+    size_t sl = strlen(cs) + 1;
     if (sl == osl) {
-      if (0 == memcmp (cs, str, osl)) {
+      if (0 == memcmp(cs, str, osl)) {
         return cs;
       }
     }
@@ -797,7 +814,7 @@ find_dynstr (const emfile_t *e, const char *str)
 #define WORK_ABI_COMPLIANCE     (1 << 6)        /* Need to make the object gABI compliant */
 
 static int
-process_file (unsigned char *data, size_t dlen)
+process_file(unsigned char *data, size_t dlen)
 {
   emfile_t e, ne;
   strlist_t *needed = 0, *rpath_s = 0, *runpath_s = 0;
@@ -808,24 +825,24 @@ process_file (unsigned char *data, size_t dlen)
   int num_needed = 0;
   int i, dte = 0;
 
-  if (elfmod_setup_file (&e, data, dlen)) {
+  if (elfmod_setup_file(&e, data, dlen)) {
     return 1;
   }
 
   if (arg_needed_add->nstrs || arg_needed_del->nstrs || arg_abspath->nstrs) {
-    needed = sl_new (5);
+    needed = sl_new(5);
   }
 
   if (arg_soname) {
-    soname = strdup (arg_soname);
+    soname = strdup(arg_soname);
   }
 
   if (arg_rpath_set) {
-    rpath = strdup (arg_rpath_set);
+    rpath = strdup(arg_rpath_set);
   }
 
   if (arg_runpath_set) {
-    runpath = strdup (arg_runpath_set);
+    runpath = strdup(arg_runpath_set);
   }
 
   for (dti = 0; dti < e.e_dynum; dti++) {
@@ -834,30 +851,30 @@ process_file (unsigned char *data, size_t dlen)
     switch (dyn->d_tag) {
       case DT_SONAME:
         if (0 == soname) {
-          soname = strdup (e.dynstrs + dyn->d_un.d_val);
+          soname = strdup(e.dynstrs + dyn->d_un.d_val);
         }
         break;
 
       case DT_RPATH:
         if (0 == rpath) {
-          rpath = strdup (e.dynstrs + dyn->d_un.d_val);
+          rpath = strdup(e.dynstrs + dyn->d_un.d_val);
         }
         break;
 
       case DT_RUNPATH:
         if (0 == runpath) {
-          runpath = strdup (e.dynstrs + dyn->d_un.d_val);
+          runpath = strdup(e.dynstrs + dyn->d_un.d_val);
         }
-        if (strstr (e.dynstrs + dyn->d_un.d_val, "$ORIGIN") || strstr (e.dynstrs + dyn->d_un.d_val, "${ORIGIN}")) {
+        if (strstr(e.dynstrs + dyn->d_un.d_val, "$ORIGIN") || strstr(e.dynstrs + dyn->d_un.d_val, "${ORIGIN}")) {
           mdt_flags |= DF_ORIGIN;
         }
         break;
 
       case DT_NEEDED:
         if (needed) {
-          sl_stradd (needed, e.dynstrs + dyn->d_un.d_val);
+          sl_stradd(needed, e.dynstrs + dyn->d_un.d_val);
         }
-        if (strstr (e.dynstrs + dyn->d_un.d_val, "$ORIGIN") || strstr (e.dynstrs + dyn->d_un.d_val, "${ORIGIN}")) {
+        if (strstr(e.dynstrs + dyn->d_un.d_val, "$ORIGIN") || strstr(e.dynstrs + dyn->d_un.d_val, "${ORIGIN}")) {
           mdt_flags |= DF_ORIGIN;
         }
         break;
@@ -881,45 +898,45 @@ process_file (unsigned char *data, size_t dlen)
   }
 
   if (emdisplay_before & DISPLAY_HEADERS) {
-    display_header (&e, emdisplay_before & DISPLAY_DEBUG ? 1 : 0);
-    display_sections (&e, emdisplay_before & DISPLAY_DEBUG ? 1 : 0);
+    display_header(&e, emdisplay_before & DISPLAY_DEBUG ? 1 : 0);
+    display_sections(&e, emdisplay_before & DISPLAY_DEBUG ? 1 : 0);
   }
 
   if (emdisplay_before & DISPLAY_DYNAMIC) {
-    display_dynamic (&e, emdisplay_before & DISPLAY_DEBUG ? 1 : 0);
+    display_dynamic(&e, emdisplay_before & DISPLAY_DEBUG ? 1 : 0);
   }
 
-  display_dyn_entries (&e, emdisplay_before);
+  display_dyn_entries(&e, emdisplay_before);
 
-  sl_lstadd (needed, arg_needed_add);
-  sl_lstdel (needed, arg_needed_del);
+  sl_lstadd(needed, arg_needed_add);
+  sl_lstdel(needed, arg_needed_del);
 
   if (rpath && rpath[0]) {
-    rpath_s = sl_new (1);
-    sl_splitadd (rpath_s, rpath, ":;");
-    sl_lstadd (rpath_s, arg_rpath_add);
-    sl_lstdel (rpath_s, arg_rpath_del);
-    free (rpath);
+    rpath_s = sl_new(1);
+    sl_splitadd(rpath_s, rpath, ":;");
+    sl_lstadd(rpath_s, arg_rpath_add);
+    sl_lstdel(rpath_s, arg_rpath_del);
+    free(rpath);
     rpath = 0;
   }
 
   if (runpath && runpath[0]) {
-    runpath_s = sl_new (1);
-    sl_splitadd (runpath_s, runpath, ":;");
-    sl_lstadd (runpath_s, arg_runpath_add);
-    sl_lstdel (runpath_s, arg_runpath_del);
-    free (runpath);
+    runpath_s = sl_new(1);
+    sl_splitadd(runpath_s, runpath, ":;");
+    sl_lstadd(runpath_s, arg_runpath_add);
+    sl_lstdel(runpath_s, arg_runpath_del);
+    free(runpath);
     runpath = 0;
   }
 
   /*
    * "Absolute-ise" everything if we've been asked to.
    */
-  soname = make_absolute (soname);
+  soname = make_absolute(soname);
 
   if (needed) {
     for (i = 0; i < needed->strsz; i++) {
-      needed->strs[i] = make_absolute (needed->strs[i]);
+      needed->strs[i] = make_absolute(needed->strs[i]);
     }
     num_needed = needed->nstrs;
   }
@@ -930,14 +947,14 @@ process_file (unsigned char *data, size_t dlen)
    * string list structure.
    */
   if (rpath_s) {
-    rpath = sl_join (rpath_s, ':');
-    sl_free (rpath_s);
+    rpath = sl_join(rpath_s, ':');
+    sl_free(rpath_s);
     rpath_s = 0;
   }
 
   if (runpath_s) {
-    runpath = sl_join (runpath_s, ':');
-    sl_free (runpath_s);
+    runpath = sl_join(runpath_s, ':');
+    sl_free(runpath_s);
     runpath_s = 0;
   }
 
@@ -962,19 +979,19 @@ process_file (unsigned char *data, size_t dlen)
    * other hand, can and probably will change, which is why we over-allocate
    * that section type, as well as the dynamic string table.
    */
-  memcpy (&ne, &e, sizeof (ne));
+  memcpy(&ne, &e, sizeof(ne));
   ne.data = 0;
   ne.dlen = 0;
 
-  ne.ehdr = (Elf_Ehdr *)malloc (e.ehdr->e_ehsize);
-  ne.phdr = (Elf_Phdr *)calloc (e.e_phnum, e.ehdr->e_phentsize);
-  ne.shdr = (Elf_Shdr *)calloc (e.e_shnum, e.ehdr->e_shentsize);
-  ne.dyn  = (Elf_Dyn *)calloc (e.e_dynum + 3 + num_needed, sizeof (Elf_Dyn));
-  ne.dynstrs = (char *)calloc (1, e.dt_strsz + 4096 + (num_needed * 1024));
+  ne.ehdr = (Elf_Ehdr *)malloc(e.ehdr->e_ehsize);
+  ne.phdr = (Elf_Phdr *)calloc(e.e_phnum, e.ehdr->e_phentsize);
+  ne.shdr = (Elf_Shdr *)calloc(e.e_shnum, e.ehdr->e_shentsize);
+  ne.dyn = (Elf_Dyn *)calloc(e.e_dynum + 3 + num_needed, sizeof(Elf_Dyn));
+  ne.dynstrs = (char *)calloc(1, e.dt_strsz + 4096 + (num_needed * 1024));
 
-  memcpy (ne.phdr, e.phdr, e.e_phnum * sizeof (e.ehdr->e_phentsize));
-  memcpy (ne.shdr, e.shdr, e.e_shnum * sizeof (e.ehdr->e_shentsize));
-  memcpy (ne.dynstrs, e.dynstrs, e.dt_strsz);
+  memcpy(ne.phdr, e.phdr, e.e_phnum * sizeof(e.ehdr->e_phentsize));
+  memcpy(ne.shdr, e.shdr, e.e_shnum * sizeof(e.ehdr->e_shentsize));
+  memcpy(ne.dynstrs, e.dynstrs, e.dt_strsz);
   newstrsz = e.dt_strsz;
 
   /*
@@ -990,10 +1007,10 @@ process_file (unsigned char *data, size_t dlen)
    * So we look for that string now, and record its position if it exists, or
    * add it if it doesn't.
    */
-  emdstr = find_dynstr (&ne, "\1ELFMOD\1");
+  emdstr = find_dynstr(&ne, "\1ELFMOD\1");
   if (0 == emdstr) {
     emdstr = ne.dynstrs + ne.dt_strsz;
-    memcpy (emdstr, "\1ELFMOD\1\0", 9);   /* Also copy the terminating NULL */
+    memcpy(emdstr, "\1ELFMOD\1\0", 9); /* Also copy the terminating NULL */
   }
   o_dt_strsz = emdstr - ne.dynstrs;
   emdstr += 9;
@@ -1009,11 +1026,11 @@ process_file (unsigned char *data, size_t dlen)
       if (0 == tsp) {
         continue;
       }
-      sl = strlen (tsp);
+      sl = strlen(tsp);
 
-      nsp = find_dynstr (&ne, tsp);
+      nsp = find_dynstr(&ne, tsp);
       if (0 == nsp) {
-        memcpy (emdstr, tsp, sl + 1);
+        memcpy(emdstr, tsp, sl + 1);
         nsp = emdstr;
         emdstr += sl + 1;
         ne.dt_strsz += sl + 1;
@@ -1021,18 +1038,18 @@ process_file (unsigned char *data, size_t dlen)
       ne.dyn[dte].d_tag = DT_NEEDED;
       ne.dyn[dte].d_un.d_val = nsp - ne.dynstrs;
       dte++;
-      if (strstr (nsp, "$ORIGIN") || strstr (nsp, "${ORIGIN}")) {
+      if (strstr(nsp, "$ORIGIN") || strstr(nsp, "${ORIGIN}")) {
         mdt_flags |= DF_ORIGIN;
       }
     }
   }
 
   if (soname) {
-    char *ssp = find_dynstr (&ne, soname);
-    size_t sl = strlen (soname);
+    char *ssp = find_dynstr(&ne, soname);
+    size_t sl = strlen(soname);
 
     if (0 == ssp) {
-      memcpy (emdstr, soname, sl + 1);
+      memcpy(emdstr, soname, sl + 1);
       ssp = emdstr;
       emdstr += sl + 1;
       ne.dt_strsz += sl + 1;
@@ -1040,46 +1057,46 @@ process_file (unsigned char *data, size_t dlen)
     ne.dyn[dte].d_tag = DT_SONAME;
     ne.dyn[dte].d_un.d_val = ssp - ne.dynstrs;
     dte++;
-    printf ("SONAME = %s\n", ssp);
+    printf("SONAME = %s\n", ssp);
     work |= WORK_SONAME;
   }
 
   if (runpath) {
-    char *rsp = find_dynstr (&ne, runpath);
-    size_t sl = strlen (runpath);
+    char *rsp = find_dynstr(&ne, runpath);
+    size_t sl = strlen(runpath);
 
     if (0 == rsp) {
-      memcpy (emdstr, runpath, sl + 1);
+      memcpy(emdstr, runpath, sl + 1);
       rsp = emdstr;
       emdstr += sl + 1;
       ne.dt_strsz += sl + 1;
-      printf ("RUNPATH = %s\n", rsp);
+      printf("RUNPATH = %s\n", rsp);
     }
     ne.dyn[dte].d_tag = DT_RUNPATH;
     ne.dyn[dte].d_un.d_val = rsp - ne.dynstrs;
     dte++;
     work |= WORK_RUNPATH;
-    if (strstr (rsp, "$ORIGIN") || strstr (rsp, "${ORIGIN}")) {
+    if (strstr(rsp, "$ORIGIN") || strstr(rsp, "${ORIGIN}")) {
       mdt_flags |= DF_ORIGIN;
     }
   }
 
   if (rpath) {
-    char *rsp = find_dynstr (&ne, rpath);
-    size_t sl = strlen (rpath);
+    char *rsp = find_dynstr(&ne, rpath);
+    size_t sl = strlen(rpath);
 
     if (0 == rsp) {
-      memcpy (emdstr, rpath, sl + 1);
+      memcpy(emdstr, rpath, sl + 1);
       rsp = emdstr;
       emdstr += sl + 1;
       ne.dt_strsz += sl + 1;
-      printf ("RPATH = %s\n", rsp);
+      printf("RPATH = %s\n", rsp);
     }
     ne.dyn[dte].d_tag = DT_RPATH;
     ne.dyn[dte].d_un.d_val = rsp - ne.dynstrs;
     dte++;
     work |= WORK_RPATH;
-    if (strstr (rsp, "$ORIGIN") || strstr (rsp, "${ORIGIN}")) {
+    if (strstr(rsp, "$ORIGIN") || strstr(rsp, "${ORIGIN}")) {
       mdt_flags |= DF_ORIGIN;
     }
   }
@@ -1089,7 +1106,7 @@ process_file (unsigned char *data, size_t dlen)
     ne.dyn[dte].d_tag = DT_FLAGS;
     ne.dyn[dte].d_un.d_val = mdt_flags;
     dte++;
-    printf ("FLAGS = "PRIex"\n", mdt_flags);
+    printf("FLAGS = " PRIex "\n", mdt_flags);
     work |= WORK_FLAGS;
   }
 
@@ -1148,11 +1165,11 @@ process_file (unsigned char *data, size_t dlen)
    * alignment rules that is what we align the start of the program header
    * table to.
    */
-  offset = add_alignment (offset, 4);
+  offset = add_alignment(offset, 4);
   ne.ehdr->e_phoff = offset;
 
   offset += (e.ehdr->e_phnum * e.ehdr->e_phentsize);
-  offset = add_alignment (offset, sizeof (ecuint_t));
+  offset = add_alignment(offset, sizeof(ecuint_t));
 
   /*
    * Do the actual processing we're here to do. We'll start with the
@@ -1166,24 +1183,24 @@ process_file (unsigned char *data, size_t dlen)
   if ((e.interp_ph != 0) && arg_interpreter) {
     const char *ci = (const char *)data + e.phdr[e.interp_ph].p_offset;
 
-    if (strcmp (ci, arg_interpreter)) {
+    if (strcmp(ci, arg_interpreter)) {
       if (e.interp_sh == 0) {
-        fprintf (stderr, "%s: warning: section not found - not changing interpreter for `%s'.\n", progname, curfile);
+        fprintf(stderr, "%s: warning: section not found - not changing interpreter for `%s'.\n", progname, curfile);
       } else {
         work |= WORK_INTERPRETER;
       }
     }
   }
 
-  free (soname);
-  free (rpath);
-  free (runpath);
-  free (ne.dynstrs);
-  free (ne.dyn);
-  free (ne.shdr);
-  free (ne.phdr);
-  free (ne.ehdr);
-  sl_free (needed);
+  free(soname);
+  free(rpath);
+  free(runpath);
+  free(ne.dynstrs);
+  free(ne.dyn);
+  free(ne.shdr);
+  free(ne.phdr);
+  free(ne.ehdr);
+  sl_free(needed);
 
   return 0;
 }
