@@ -24,21 +24,31 @@
  * SUCH DAMAGE.
  */
 
-#include "elfmod.h"
-
 /*
- * Dispatch to the correct class-specific processor. By the time we get here
- * the caller has already verified the ELF magic and that EI_CLASS is one of
- * ELFCLASS32 or ELFCLASS64.
+ * ELFCLASS64 instantiation of the class independent processing code in
+ * realproc.inc. See the comment at the top of that file.
  */
-int
-process_file(unsigned char *data, size_t dlen)
-{
-  if (data[EI_CLASS] == ELFCLASS32) {
-    return process_file_32(data, dlen);
-  }
-  return process_file_64(data, dlen);
-}
+
+#include "elfmod.h"
+#include "prettyhex.h"
+
+typedef Elf64_Ehdr Elf_Ehdr;
+typedef Elf64_Phdr Elf_Phdr;
+typedef Elf64_Shdr Elf_Shdr;
+typedef Elf64_Dyn Elf_Dyn;
+typedef int64_t ecint_t;
+typedef uint64_t ecuint_t;
+
+#define ELFCS           "64"
+#define PRIex           "0x%016" PRIx64
+#define PRI8x           "0x%08" PRIx64
+#define PRIeu           "%" PRIu64
+#define PRIei           "%" PRIi64
+#define EXSPACES        "        "
+
+#define process_file    process_file_64
+
+#include "realproc.inc"
 
 /*
  * vim: set cino=>2,e0,n0,f0,{2,}0,^0,\:2,=2,p2,t2,c1,+2,(2,u2,)20,*30,g2,h2:

@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (c) 2016-2022 Kean Johnston.
  * All rights reserved.
  *
@@ -23,22 +23,23 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
+#ifndef ELFMOD_PRETTYHEX_H
+#define ELFMOD_PRETTYHEX_H
 
-#include "elfmod.h"
+#include <stddef.h>
+#include <stdint.h>
 
-/*
- * Dispatch to the correct class-specific processor. By the time we get here
- * the caller has already verified the ELF magic and that EI_CLASS is one of
- * ELFCLASS32 or ELFCLASS64.
- */
-int
-process_file(unsigned char *data, size_t dlen)
-{
-  if (data[EI_CLASS] == ELFCLASS32) {
-    return process_file_32(data, dlen);
-  }
-  return process_file_64(data, dlen);
-}
+#define HPP_OFFSET_16 (1 << 0)  /* Prefix with 16 bit offset */
+#define HPP_OFFSET_32 (1 << 1)  /* Prefix with 32 bit offset */
+#define HPP_GROUP_8 (1 << 2)    /* Group every 8 bytes */
+#define HPP_GROUP_16 (1 << 3)   /* Group every 16 bytes */
+#define HPP_ASCII (1 << 4)      /* Print ASCII after bytes */
+#define HPP_ASCII_ONLY (1 << 5) /* Only print ASCII dump */
+#define HPP_LEAD_FIRST (1 << 6) /* Print leader first time around otherwise don't */
+
+extern void prettyhex(const unsigned char *data, size_t len, uint32_t offs, uint32_t flags, const char *leader);
+
+#endif /* ELFMOD_PRETTYHEX_H */
 
 /*
  * vim: set cino=>2,e0,n0,f0,{2,}0,^0,\:2,=2,p2,t2,c1,+2,(2,u2,)20,*30,g2,h2:

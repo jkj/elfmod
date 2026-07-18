@@ -24,13 +24,12 @@
  * SUCH DAMAGE.
  */
 
-typedef struct _strlist_t {
-  int nstrs;    /* Number of strings in the list */
-  int strsz;    /* Size of the string list */
-  char **strs;  /* Actual strings in the list */
-} strlist_t;
+#include <stdlib.h>
+#include <string.h>
 
-static inline strlist_t *
+#include "strlist.h"
+
+strlist_t *
 sl_new(int numstrs)
 {
   strlist_t *lst = (strlist_t *)calloc(1, sizeof(strlist_t));
@@ -41,7 +40,7 @@ sl_new(int numstrs)
   return lst;
 }
 
-static inline void
+void
 sl_free(strlist_t *sl)
 {
   int i;
@@ -59,7 +58,7 @@ sl_free(strlist_t *sl)
   free(sl);
 }
 
-static inline void
+void
 sl_stradd(strlist_t *lst, const char *newstr)
 {
   int i, avail = -1;
@@ -90,7 +89,7 @@ sl_stradd(strlist_t *lst, const char *newstr)
   lst->nstrs++;
 }
 
-static inline void
+void
 sl_lstadd(strlist_t *sl, const strlist_t *ol)
 {
   int i;
@@ -106,7 +105,7 @@ sl_lstadd(strlist_t *sl, const strlist_t *ol)
   }
 }
 
-static inline void
+void
 sl_splitadd(strlist_t *lst, const char *str, const char *splitcs)
 {
   char tstr[2048];
@@ -130,7 +129,7 @@ sl_splitadd(strlist_t *lst, const char *str, const char *splitcs)
   }
 }
 
-static inline void
+void
 sl_strdel(strlist_t *lst, char *str)
 {
   int i;
@@ -149,7 +148,7 @@ sl_strdel(strlist_t *lst, char *str)
   }
 }
 
-static inline void
+void
 sl_idxdel(strlist_t *lst, int idx)
 {
   if ((idx >= lst->strsz) || (0 == lst->strs[idx])) {
@@ -161,7 +160,7 @@ sl_idxdel(strlist_t *lst, int idx)
   lst->nstrs--;
 }
 
-static inline void
+void
 sl_cmpdel(strlist_t *lst, const char *str)
 {
   int i;
@@ -180,7 +179,7 @@ sl_cmpdel(strlist_t *lst, const char *str)
   }
 }
 
-static inline void
+void
 sl_lstdel(strlist_t *lst, const strlist_t *olst)
 {
   int i;
@@ -192,7 +191,7 @@ sl_lstdel(strlist_t *lst, const strlist_t *olst)
   }
 }
 
-static inline char *
+char *
 sl_join(const strlist_t *sl, int joinc)
 {
   char *rs, js[2];

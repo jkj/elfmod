@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright (c) 2016-2022 Kean Johnston.
  * All rights reserved.
  *
@@ -23,22 +23,27 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
+#ifndef ELFMOD_STRLIST_H
+#define ELFMOD_STRLIST_H
 
-#include "elfmod.h"
+typedef struct _strlist_t {
+  int nstrs;    /* Number of strings in the list */
+  int strsz;    /* Size of the string list */
+  char **strs;  /* Actual strings in the list */
+} strlist_t;
 
-/*
- * Dispatch to the correct class-specific processor. By the time we get here
- * the caller has already verified the ELF magic and that EI_CLASS is one of
- * ELFCLASS32 or ELFCLASS64.
- */
-int
-process_file(unsigned char *data, size_t dlen)
-{
-  if (data[EI_CLASS] == ELFCLASS32) {
-    return process_file_32(data, dlen);
-  }
-  return process_file_64(data, dlen);
-}
+extern strlist_t *sl_new(int numstrs);
+extern void sl_free(strlist_t *sl);
+extern void sl_stradd(strlist_t *lst, const char *newstr);
+extern void sl_lstadd(strlist_t *sl, const strlist_t *ol);
+extern void sl_splitadd(strlist_t *lst, const char *str, const char *splitcs);
+extern void sl_strdel(strlist_t *lst, char *str);
+extern void sl_idxdel(strlist_t *lst, int idx);
+extern void sl_cmpdel(strlist_t *lst, const char *str);
+extern void sl_lstdel(strlist_t *lst, const strlist_t *olst);
+extern char *sl_join(const strlist_t *sl, int joinc);
+
+#endif /* ELFMOD_STRLIST_H */
 
 /*
  * vim: set cino=>2,e0,n0,f0,{2,}0,^0,\:2,=2,p2,t2,c1,+2,(2,u2,)20,*30,g2,h2:

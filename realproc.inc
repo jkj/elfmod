@@ -24,62 +24,16 @@
  * SUCH DAMAGE.
  */
 
-#undef emfile_t
-#define emfile_t EFCT(emfile)
-
-#undef Elf_Ehdr
-#define Elf_Ehdr ELFT(Ehdr)
-
-#undef Elf_Phdr
-#define Elf_Phdr ELFT(Phdr)
-
-#undef Elf_Shdr
-#define Elf_Shdr ELFT(Shdr)
-
-#undef Elf_Dyn
-#define Elf_Dyn ELFT(Dyn)
-
-#undef ecint_t
-#define ecint_t EFCT(int)
-
-#undef ecuint_t
-#define ecuint_t EFCT(uint)
-
-#undef elfmod_setup_file
-#define elfmod_setup_file EFC(elfmod_setup_file)
-
-#undef section_name
-#define section_name EFC(section_name)
-
-#undef is_nbtls_section
-#define is_nbtls_section EFC(is_nbtls_section)
-
-#undef is_section_in_segment
-#define is_section_in_segment EFC(is_section_in_segment)
-
-#undef vma_to_offset
-#define vma_to_offset EFC(vma_to_offset)
-
-#undef display_header
-#define display_header EFC(display_header)
-
-#undef display_sections
-#define display_sections EFC(display_sections)
-
-#undef display_dynamic
-#define display_dynamic EFC(display_dynamic)
-
-#undef display_dyn_entries
-#define display_dyn_entries EFC(display_dyn_entries)
-
-#undef process_file
-#define process_file EFC(process_file)
-
-#undef add_alignment
-#define add_alignment EFC(add_alignment)
-
-#undef find_dynstr
-#define find_dynstr EFC(find_dynstr)
+/*
+ * This file is the ELF class independent implementation of the file
+ * processing code. It is not compiled directly; instead it is included by
+ * proc32.c and proc64.c, which must first define the class-specific types
+ * (Elf_Ehdr, Elf_Phdr, Elf_Shdr, Elf_Dyn, ecint_t, ecuint_t), the printf
+ * format macros (PRIex, PRI8x, PRIeu, PRIei), the ELFCS and EXSPACES
+ * strings, and a process_file macro giving the externally visible name of
+ * the entry point (process_file_32 or process_file_64). Everything else in
+ * here is static and thus private to each of those translation units.
+ */
 
 typedef struct {
   unsigned char *data;     /* Pointer to whole file memory map */
@@ -813,7 +767,7 @@ find_dynstr(const emfile_t *e, const char *str)
 #define WORK_FLAGS              (1 << 5)        /* Need to set DT_FLAGS entry */
 #define WORK_ABI_COMPLIANCE     (1 << 6)        /* Need to make the object gABI compliant */
 
-static int
+int
 process_file(unsigned char *data, size_t dlen)
 {
   emfile_t e, ne;
