@@ -29,13 +29,13 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#define HPP_OFFSET_16 (1 << 0)  /* Prefix with 16 bit offset */
-#define HPP_OFFSET_32 (1 << 1)  /* Prefix with 32 bit offset */
-#define HPP_GROUP_8 (1 << 2)    /* Group every 8 bytes */
-#define HPP_GROUP_16 (1 << 3)   /* Group every 16 bytes */
-#define HPP_ASCII (1 << 4)      /* Print ASCII after bytes */
-#define HPP_ASCII_ONLY (1 << 5) /* Only print ASCII dump */
-#define HPP_LEAD_FIRST (1 << 6) /* Print leader first time around otherwise don't */
+#define HPP_OFFSET_16       (1 << 0)    /* Prefix with 16 bit offset */
+#define HPP_OFFSET_32       (1 << 1)    /* Prefix with 32 bit offset */
+#define HPP_GROUP_8         (1 << 2)    /* Group every 8 bytes */
+#define HPP_GROUP_16        (1 << 3)    /* Group every 16 bytes */
+#define HPP_ASCII           (1 << 4)    /* Print ASCII after bytes */
+#define HPP_ASCII_ONLY      (1 << 5)    /* Only print ASCII dump */
+#define HPP_LEAD_FIRST      (1 << 6)    /* Print leader first time around otherwise don't */
 
 extern void prettyhex(const unsigned char *data, size_t len, uint32_t offs, uint32_t flags, const char *leader);
 
